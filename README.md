@@ -4,10 +4,10 @@
 
 ## Related Projects
 
-  - https://github.com/table-for-five/header.git
-  - https://github.com/table-for-five/menu.git
-  - https://github.com/table-for-five/overview.git
-  - https://github.com/table-for-five/reservations.git
+  - https://github.com/tables-for-chew/menu
+  - https://github.com/tables-for-chew/reservations
+  - https://github.com/tables-for-chew/overview
+  
 
 ## Table of Contents
 
