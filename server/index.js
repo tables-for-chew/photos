@@ -25,7 +25,7 @@ app.get('/api/photos/:id', (req, res) => {
     });
 });
 
-// Shows the page on load even if the above doesn't exist
+// Shows the pag  e on load even if the above doesn't exist
 app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
 
 app.listen(PORT, console.log(`Listening to PORT ${PORT}...`));
