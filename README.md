@@ -7,7 +7,7 @@
   - https://github.com/tables-for-chew/menu
   - https://github.com/tables-for-chew/reservations
   - https://github.com/tables-for-chew/overview
-  
+
 
 ## Table of Contents
 
