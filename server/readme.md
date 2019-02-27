@@ -5,7 +5,7 @@ Create-(Post)
 use this endpoint to create pictures
 
 Read-(get)
-'/api/read/photos'
+'/api/photos/:id'
 use this endpoint to retrieve all photos from DB
 
 Update-(put)
