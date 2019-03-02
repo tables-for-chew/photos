@@ -8,6 +8,7 @@ const numberOfPictures = () => {
   return Math.floor(Math.random() * 21)
 }
 
+var cwstream = fs.createWriteStream(path.resolve(__dirname + '/../util/datafile1.csv'))
 
 
 var iteration = 0
@@ -17,12 +18,13 @@ let imageID = 1
 var collection = '';
 
 var batcher = () => {
-  if (iteration === 5) {
-    return
-  };
-  iteration++
+  // if (iteration === 5000) {
+  //   cwstream.end()
+  //   return
+  // };
+  // iteration++
   // creates 1000 unique restaurants
-  for (let i = 1; i <= 2000; i++) {
+  for (let i = 1; i < 10000001; i++) {
     let pictures = numberOfPictures()
     var itemPage = {};
     itemPage.id = currentID;
@@ -48,32 +50,22 @@ var batcher = () => {
     }
     collection += JSON.stringify(itemPage) + '\n';
     currentID += 1
-  }
-  writeToStream();
-}
 
+    if (i % 100000 === 0) {
+      cwstream.write(collection, 'UTF8')
+      console.log(`Write completed${i}/5000`)
+      collection = '';
+      // return batcher()
+      // writeToStream();
+    }
+  }
+}
 
 function writeToStream() {
-  // creates write stream with options to append to file
-  var cwstream = fs.createWriteStream(path.resolve(__dirname + '/../util/datafile1.csv'), {
-    'flags': 'a'
-    , 'encoding': null
-    , 'mode': 0666
-  })
   cwstream.write(collection, 'UTF8')
-  cwstream.end()
-
-  // promises to run batcher after writing has finished
-  new Promise((resolve, reject) => {
-    cwstream.on('finish', () => {
-      collection = '';
-      batcher()
-    });
-    cwstream.on('error', () => {
-      return console.log('error at iteration # ', iteration)
-    });
-    resolve(console.log(`Batch ${iteration}/5000 completed`))
-    reject('error writing at iteration #', iteration)
-  })
+  console.log(`Write completed${iteration}/5000`)
+  collection = '';
+  return batcher()
 }
+
 batcher();
