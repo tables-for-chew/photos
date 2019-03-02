@@ -20,7 +20,7 @@ async function downloadImage(params) {
   });
 }
 
-for (let i = 200; i < 300; i += 1) {
+for (let i = 0; i < 1000; i += 1) {
   const params = {
     id: i,
     width: 640,

@@ -28,3 +28,5 @@ database/config.js
 tests/__snapshots__/
 
 images
+
+util/datafile1.csv
