@@ -26,3 +26,5 @@ client/dist/bundle.js
 
 database/config.js
 tests/__snapshots__/
+
+images

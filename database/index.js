@@ -5,8 +5,8 @@ const {
 } = require('./config');
 
 const sequelize = new Sequelize('restaurants', username, password, {
-  host: '172.17.0.2',
-  port: '3306',
+  host: 'localhost',
+  // port: '3306',
   dialect: 'mysql',
 });
 
