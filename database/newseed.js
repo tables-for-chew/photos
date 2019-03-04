@@ -8,6 +8,7 @@ const numberOfPictures = () => {
   return Math.floor(Math.random() * 21)
 }
 
+// global variables
 var iteration = 0;
 let k = 1;
 var restaurantCollection = '';
@@ -20,6 +21,7 @@ var batcher = () => {
     return
   };
   iteration++
+
   // creates 1000 unique restaurants
   for (let i = 1; i <= 10; i++) {
     var restaurant = [];
@@ -39,7 +41,7 @@ var batcher = () => {
       image.push(`caption: ${faker.lorem.words()}`);
       image.push(`hover_data: ${faker.lorem.words()}`);
 
-      // error on S3, only 679 pics uploaded. we will reset count after we reach 679
+      // only 679 pics uploaded on S3. we will reset count after we reach 679
       k++
       if (k === 680) { k = 1 };
 
@@ -63,7 +65,7 @@ function writeToStream() {
   cwstreamRestaurant.write(restaurantCollection, 'UTF8')
   cwstreamRestaurant.end()
 
-  // promises to run write stream for  after writing has finished
+  // promises to run write stream for  images after  restaurant writing has finished
   new Promise((resolve, reject) => {
     cwstreamRestaurant.on('finish', () => {
       restaurantCollection = '';
