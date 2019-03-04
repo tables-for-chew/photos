@@ -8,72 +8,95 @@ const numberOfPictures = () => {
   return Math.floor(Math.random() * 21)
 }
 
-
-
-var iteration = 0
+var iteration = 0;
 let k = 1;
-let currentID = 1
-let imageID = 1
-var collection = '';
+var restaurantCollection = '';
+let restaurantID = 1;
+var imageCollection = '';
+let imageID = 1;
 
 var batcher = () => {
-  if (iteration === 5) {
+  if (iteration === 1) {
     return
   };
   iteration++
   // creates 1000 unique restaurants
-  for (let i = 1; i <= 2000; i++) {
-    let pictures = numberOfPictures()
-    var itemPage = {};
-    itemPage.id = currentID;
-    itemPage.restaurantName = faker.company.companyName();
-    itemPage.images = [];
+  for (let i = 1; i <= 10; i++) {
+    var restaurant = [];
+    restaurant.push(`id: ${restaurantID}`);
+    restaurant.push(`restaurant_name: ${faker.company.catchPhraseNoun()}`);
 
+    restaurantCollection += JSON.stringify(restaurant) + '\n';
     // creates data for each indiviual picture
+    let pictures = numberOfPictures()
     for (let j = 1; j <= pictures; j++) {
-      var image = {};
-      image.id = imageID;
-      image.restaurant_id = currentID;
-      image.username = faker.name.firstName();
-      image.date_posted = faker.date.recent();
-      image.image_url = `https://s3.us-east-2.amazonaws.com/photochews/food${k}.jpg`;
-      image.caption = faker.lorem.words();
-      image.hover_data = faker.lorem.words();
+      var image = [];
+      image.push(`id: ${imageID}`);
+      image.push(`restaurant_id: ${restaurantID}`);
+      image.push(`username: ${faker.name.firstName()}`);
+      image.push(`date_posted: ${faker.date.recent()}`);
+      image.push(`image_url: https://s3.us-east-2.amazonaws.com/photochews/food${k}.jpg`);
+      image.push(`caption: ${faker.lorem.words()}`);
+      image.push(`hover_data: ${faker.lorem.words()}`);
 
-      imageID += 1;
       // error on S3, only 679 pics uploaded. we will reset count after we reach 679
       k++
       if (k === 680) { k = 1 };
-      itemPage.images.push(image);
+
+      imageCollection += JSON.stringify(image) + '\n';
+      imageID += 1;
     }
-    collection += JSON.stringify(itemPage) + '\n';
-    currentID += 1
+    restaurantID += 1
   }
+
   writeToStream();
 }
 
 
 function writeToStream() {
   // creates write stream with options to append to file
-  var cwstream = fs.createWriteStream(path.resolve(__dirname + '/../util/datafile1.csv'), {
+  var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '/../util/restaurantDataFile.csv'), {
     'flags': 'a'
     , 'encoding': null
     , 'mode': 0666
   })
-  cwstream.write(collection, 'UTF8')
-  cwstream.end()
+  cwstreamRestaurant.write(restaurantCollection, 'UTF8')
+  cwstreamRestaurant.end()
 
-  // promises to run batcher after writing has finished
+  // promises to run write stream for  after writing has finished
   new Promise((resolve, reject) => {
-    cwstream.on('finish', () => {
-      collection = '';
-      batcher()
+    cwstreamRestaurant.on('finish', () => {
+      restaurantCollection = '';
+      writeImages()
     });
-    cwstream.on('error', () => {
+    cwstreamRestaurant.on('error', () => {
       return console.log('error at iteration # ', iteration)
     });
-    resolve(console.log(`Batch ${iteration}/5000 completed`))
-    reject('error writing at iteration #', iteration)
+    resolve(console.log(`Batch ${iteration}/5000 restaurants completed`))
+    reject('error writing at restaurant iteration #', iteration)
   })
+
+  function writeImages() {
+    var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '/../util/imageDataFile.csv'), {
+      'flags': 'a'
+      , 'encoding': null
+      , 'mode': 0666
+    })
+    cwstreamImage.write(imageCollection, 'UTF8')
+    cwstreamImage.end()
+
+    // promises to run batcher after writing has finished
+    new Promise((resolve, reject) => {
+      cwstreamImage.on('finish', () => {
+        imageCollection = '';
+        batcher()
+      });
+      cwstreamImage.on('error', () => {
+        return console.log('error at iteration # ', iteration)
+      });
+      resolve(console.log(`Batch ${iteration}/5000 images completed`))
+      reject('error writing at image iteration #', iteration)
+    })
+  }
 }
 batcher();
