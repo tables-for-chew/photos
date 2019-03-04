@@ -1,5 +1,5 @@
 const faker = require('faker')
 
-var fakeName = faker.name.firstName();
+var fakeName = faker.date.past().toDateString();
 
 console.log(fakeName);
