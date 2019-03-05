@@ -1,60 +1,104 @@
 const faker = require('faker');
 const fs = require('fs');
-const generate = require('csv-generate');
+// const generate = require('csv-generate');
 const path = require('path');
 
 // Determines how many picutres will be set for a given restaurant ( 0  to 20)
 const numberOfPictures = () => {
-  return Math.floor(Math.random() * 21)
+  return Math.floor(Math.random() * 11)
 }
 
-var iteration = 0
-var collection = '';
+// global variables
+var iteration = 0;
+let k = 1;
+var restaurantCollection = '';
+let restaurantID = 1;
+var imageCollection = '';
+let imageID = 1;
+
 var batcher = () => {
-  if (iteration > 2000) { return };
-  let k = 1;
+  if (iteration === 5000) {
+    return
+  };
+  iteration++
+
   // creates 1000 unique restaurants
-  for (let i = 1; i <= 5000; i++) {
-    let pictures = numberOfPictures()
-    var itemPage = {};
-    itemPage.id = i;
-    itemPage.restaurantName = faker.company.companyName();
-    itemPage.images = [];
+  for (let i = 1; i <= 2000; i++) {
+    var restaurant = [];
+    restaurant.push(`${restaurantID}`);
+    restaurant.push(`${faker.company.catchPhraseNoun()}`);
 
+    restaurantCollection += JSON.stringify(restaurant).slice(1, -1) + '\n';
     // creates data for each indiviual picture
+    let pictures = numberOfPictures()
     for (let j = 1; j <= pictures; j++) {
-      var image = {};
-      image.id = j;
-      image.restaurant_id = i;
-      image.username = faker.name.firstName();
-      image.date_posted = faker.date.recent();
-      image.image_url = `https://s3.us-east-2.amazonaws.com/photochews/food${k}.jpg`;
-      image.caption = faker.lorem.words();
-      image.hover_data = faker.lorem.words();
+      var image = [];
+      image.push(`${imageID}`);
+      image.push(`${restaurantID}`);
+      image.push(`https://s3.us-east-2.amazonaws.com/photochews/food${k}.jpg`);//url
+      image.push(`${faker.lorem.words()}`); //caption
+      image.push(`${faker.date.past().toDateString()}`); //date post
+      image.push(`${faker.name.firstName()}`); //username
+      image.push(`${faker.lorem.words()}`); // hover data
 
-      // error on S3, only 679 pics uploaded. we will reset count after we reach 679
+      // only 679 pics uploaded on S3. we will reset count after we reach 679
       k++
-      if (k === 679) { k = 1 };
-      itemPage.images.push(image);
+      if (k === 680) { k = 1 };
+
+      imageCollection += JSON.stringify(image).slice(1, -1) + '\n';
+      imageID += 1;
     }
-    collection += JSON.stringify(itemPage);
+    restaurantID += 1
   }
+
   writeToStream();
 }
 
-var writeToStream = () => {
-  var cwstream = fs.createWriteStream(path.resolve(__dirname + '/../util/datafile1.csv'))
 
-  cwstream.write(collection, 'UTF8')
-  iteration++
-  cwstream.end()
-  cwstream.on('finish', () => {
-    console.log(`Write completed${iteration}`)
-    batcher()
+function writeToStream() {
+  // creates write stream with options to append to file
+  var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '/../util/restaurantDataFile.csv'), {
+    'flags': 'a'
+    , 'encoding': null
+    , 'mode': 0666
   })
-  cwstream.on('error', (err) => {
-    console.log(err.stack)
+  cwstreamRestaurant.write(restaurantCollection, 'UTF8')
+  cwstreamRestaurant.end()
+
+  // promises to run write stream for  images after  restaurant writing has finished
+  new Promise((resolve, reject) => {
+    cwstreamRestaurant.on('finish', () => {
+      restaurantCollection = '';
+      writeImages()
+    });
+    cwstreamRestaurant.on('error', () => {
+      return console.log('error at iteration # ', iteration)
+    });
+    resolve(console.log(`Batch ${iteration}/5000 restaurants completed`))
+    reject('error writing at restaurant iteration #', iteration)
   })
+
+  function writeImages() {
+    var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '/../util/imageDataFile.csv'), {
+      'flags': 'a'
+      , 'encoding': null
+      , 'mode': 0666
+    })
+    cwstreamImage.write(imageCollection, 'UTF8')
+    cwstreamImage.end()
+
+    // promises to run batcher after writing has finished
+    new Promise((resolve, reject) => {
+      cwstreamImage.on('finish', () => {
+        imageCollection = '';
+        batcher()
+      });
+      cwstreamImage.on('error', () => {
+        return console.log('error at iteration # ', iteration)
+      });
+      resolve(console.log(`Batch ${iteration}/5000 images completed`))
+      reject('error writing at image iteration #', iteration)
+    })
+  }
 }
-
 batcher();
