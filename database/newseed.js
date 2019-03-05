@@ -5,7 +5,7 @@ const path = require('path');
 
 // Determines how many picutres will be set for a given restaurant ( 0  to 20)
 const numberOfPictures = () => {
-  return Math.floor(Math.random() * 21)
+  return Math.floor(Math.random() * 11)
 }
 
 // global variables
@@ -17,7 +17,7 @@ var imageCollection = '';
 let imageID = 1;
 
 var batcher = () => {
-  if (iteration === 50) {
+  if (iteration === 5000) {
     return
   };
   iteration++
