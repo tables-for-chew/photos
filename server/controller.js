@@ -1,4 +1,4 @@
-const db = require('./databse/index.js');
+const db = require('../database/index.js');
 
 const postPhoto = (req, res) => {
   const id = req.params;
@@ -9,18 +9,18 @@ const postPhoto = (req, res) => {
     .catch((err) => {
       res.status(400).send(err);
     });
-}
+};
 
 const findPhotos = (req, res) => {
-  const id = req.params;
-  db.findPhotos(id)
-    .then((photos) => {
-      res.status(200).send(photos);
-    })
-    .catch((err) => {
+  const id = req.params.id;
+  db.findPhotos(id, (err, photos) => {
+    if (err) {
       res.status(400).send(err);
-    });
-}
+    }
+    res.status(200).send(photos);
+
+  })
+};
 
 
 const updatePhoto = (req, res) => {
@@ -32,7 +32,7 @@ const updatePhoto = (req, res) => {
     .catch((err) => {
       res.status(400).send(err);
     })
-}
+};
 
 const deletePhoto = (req, res) => {
   const id = req.params;
@@ -43,11 +43,11 @@ const deletePhoto = (req, res) => {
     .catch((err) => {
       res.status(400).send(err);
     })
-}
+};
 
-module.exports {
+module.exports = {
   findPhotos,
-    postPhoto,
-    updatePhoto,
-    deletePhoto
+  postPhoto,
+  updatePhoto,
+  deletePhoto
 }
