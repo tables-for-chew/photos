@@ -1,0 +1,11 @@
+config:
+  target: "http://localhost:6969"
+  processor: "./artilleryFuncs.js"
+  phases:
+    - duration: 60
+      arrivalRate: 1000
+scenarios:
+  - flow:
+    - function: "generateRandomData"
+    - get:
+        url: "/api/photos/{{ id }}"
