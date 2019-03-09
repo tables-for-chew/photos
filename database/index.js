@@ -15,7 +15,6 @@ const findPhotos = (id, callback) => {
       callback(err);
       return;
     }
-    console.log('reaches db')
     callback(null, photos);
   });
 };
