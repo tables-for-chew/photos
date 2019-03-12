@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const path = require('path');
 const cors = require('cors');
@@ -15,5 +16,5 @@ app.post('/api/create/photos/:id', controller.postPhoto);
 app.put('/api/update/photos/:id/:photoName', controller.updatePhoto);
 app.delete('/api/delete/photos/:id/:photoName', controller.deletePhoto);
 
-
+app.use('/:id', express.static(path.join(__dirname, '../client/dist')));
 app.listen(PORT, console.log(`Listening to PORT ${PORT}...`));
