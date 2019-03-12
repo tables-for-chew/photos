@@ -24,22 +24,22 @@ const PhotoDisplayEntry = props => (
         <SmallImg data-index-number="4" onClick={event => props.openModal(event)} src={props.photos[4]['image_url']} alt="" />
       </div>
       <div>
-        <SmallImg data-index-number="5" onClick={event => props.openModal(event)} src={props.photos[1]['image_url']} alt="" />
+        <SmallImg data-index-number="5" onClick={event => props.openModal(event)} src={props.photos[5]['image_url']} alt="" />
       </div>
     </span>
     <span>
       <div>
-        <SmallImg data-index-number="6" onClick={event => props.openModal(event)} src={props.photos[2]['image_url']} alt="" />
+        <SmallImg data-index-number="6" onClick={event => props.openModal(event)} src={props.photos[6]['image_url']} alt="" />
       </div>
       <div>
-        <SmallImg data-index-number="7" onClick={event => props.openModal(event)} src={props.photos[3]['image_url']} alt="" />
+        <SmallImg data-index-number="7" onClick={event => props.openModal(event)} src={props.photos[7]['image_url']} alt="" />
       </div>
       <div>
         <LastSmallOverlay>
           <LastSmallImg
             data-index-number="8"
             onClick={event => props.openModal(event)}
-            src={props.photos[4]['image_url']}
+            src={props.photos[8]['image_url']}
             alt=""
           />
           <TextDiv>

@@ -3,11 +3,13 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const controller = require('./controller.js');
+const morgan = require('morgan');
 
 const app = express();
 
 const PORT = 6969;
 
+// app.use(morgan('dev'));
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 

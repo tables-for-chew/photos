@@ -24,5 +24,5 @@ CREATE TABLE photos (
   hover_data TEXT
 );
 
-\COPY restaurants(id, restaurant_name) FROM '../util/restaurantDataFile.csv' DELIMITER ',' CSV HEADER;
-\COPY photos(id, restaurant_id, image_url, caption, date_posted, username, hover_data) FROM '../util/imageDataFile.csv' DELIMITER ',' CSV HEADER;
+\COPY restaurants(id, restaurant_name) FROM '../../../../../../../media/steve/TOSHIBA EXT/seeded/restaurantTest.csv' DELIMITER ',' CSV HEADER;
+\COPY photos(id, restaurant_id, image_url, caption, date_posted, username, hover_data) FROM '../../../../../../../media/steve/TOSHIBA EXT/seeded/imageTest.csv' DELIMITER ',' CSV HEADER;
