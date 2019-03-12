@@ -6,39 +6,40 @@ const PhotoDisplayEntry = props => (
   <ImgContainer>
     <span>
       <div>
-        <MediumImg data-index-number="0" onClick={event => props.openModal(event)} src={props.photos[0].image_url} alt="" />
+        {console.log(props.photos[4])}
+        <MediumImg data-index-number="0" onClick={event => props.openModal(event)} src={props.photos[0]['image_url']} alt="" />
       </div>
       <div>
-        <MediumImg data-index-number="1" onClick={event => props.openModal(event)} src={props.photos[1].image_url} alt="" />
-      </div>
-    </span>
-    <span>
-      <LargeImg data-index-number="2" onClick={event => props.openModal(event)} src={props.photos[2].image_url} alt="" />
-    </span>
-    <span>
-      <div>
-        <SmallImg data-index-number="3" onClick={event => props.openModal(event)} src={props.photos[3].image_url} alt="" />
-      </div>
-      <div>
-        <SmallImg data-index-number="4" onClick={event => props.openModal(event)} src={props.photos[4].image_url} alt="" />
-      </div>
-      <div>
-        <SmallImg data-index-number="5" onClick={event => props.openModal(event)} src={props.photos[5].image_url} alt="" />
+        <MediumImg data-index-number="1" onClick={event => props.openModal(event)} src={props.photos[1]['image_url']} alt="" />
       </div>
     </span>
     <span>
+      <LargeImg data-index-number="2" onClick={event => props.openModal(event)} src={props.photos[2]['image_url']} alt="" />
+    </span>
+    <span>
       <div>
-        <SmallImg data-index-number="6" onClick={event => props.openModal(event)} src={props.photos[6].image_url} alt="" />
+        <SmallImg data-index-number="3" onClick={event => props.openModal(event)} src={props.photos[3]['image_url']} alt="" />
       </div>
       <div>
-        <SmallImg data-index-number="7" onClick={event => props.openModal(event)} src={props.photos[7].image_url} alt="" />
+        <SmallImg data-index-number="4" onClick={event => props.openModal(event)} src={props.photos[4]['image_url']} alt="" />
+      </div>
+      <div>
+        <SmallImg data-index-number="5" onClick={event => props.openModal(event)} src={props.photos[5]['image_url']} alt="" />
+      </div>
+    </span>
+    <span>
+      <div>
+        <SmallImg data-index-number="6" onClick={event => props.openModal(event)} src={props.photos[6]['image_url']} alt="" />
+      </div>
+      <div>
+        <SmallImg data-index-number="7" onClick={event => props.openModal(event)} src={props.photos[7]['image_url']} alt="" />
       </div>
       <div>
         <LastSmallOverlay>
           <LastSmallImg
             data-index-number="8"
             onClick={event => props.openModal(event)}
-            src={props.photos[8].image_url}
+            src={props.photos[8]['image_url']}
             alt=""
           />
           <TextDiv>

@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Determines how many picutres will be set for a given restaurant ( 0  to 20)
-const numberOfPictures = () => {
-  return Math.floor(Math.random() * 11)
+const numberOfPictures = (min, max) => {
+  return Math.floor((Math.random() * (max - min + 1))) + min
 }
 
 // global variables
@@ -30,7 +30,7 @@ var batcher = () => {
 
     restaurantCollection += JSON.stringify(restaurant).slice(1, -1) + '\n';
     // creates data for each indiviual picture
-    let pictures = numberOfPictures()
+    let pictures = numberOfPictures(9, 12)
     for (let j = 1; j <= pictures; j++) {
       var image = [];
       image.push(`${imageID}`);
@@ -57,7 +57,7 @@ var batcher = () => {
 
 function writeToStream() {
   // creates write stream with options to append to file
-  var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '/../util/restaurantDataFile.csv'), {
+  var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/restaurantTest.csv'), {
     'flags': 'a'
     , 'encoding': null
     , 'mode': 0666
@@ -79,7 +79,7 @@ function writeToStream() {
   })
 
   function writeImages() {
-    var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '/../util/imageDataFile.csv'), {
+    var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/imageTest.csv'), {
       'flags': 'a'
       , 'encoding': null
       , 'mode': 0666
