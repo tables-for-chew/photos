@@ -13,6 +13,10 @@ const PORT = 6969;
 app.use(cors());
 app.use(express.static(path.join(__dirname, '../client/dist')));
 
+app.get('/api/photos/bundle', (req, res) => {
+  res.sendFile(path.join(__dirname, '../client/dist/bundle.js'))
+})
+
 app.get('/api/photos/:id', controller.findPhotos);
 app.post('/api/create/photos/:id', controller.postPhoto);
 app.put('/api/update/photos/:id/:photoName', controller.updatePhoto);
