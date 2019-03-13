@@ -17,13 +17,13 @@ var imageCollection = '';
 let imageID = 1;
 
 var batcher = () => {
-  if (iteration === 5000) {
+  if (iteration === 1) {
     return
   };
   iteration++
 
   // creates 1000 unique restaurants
-  for (let i = 1; i <= 2000; i++) {
+  for (let i = 1; i <= 10; i++) {
     var restaurant = [];
     restaurant.push(`${restaurantID}`);
     restaurant.push(`${faker.company.catchPhraseNoun()}`);
@@ -57,7 +57,8 @@ var batcher = () => {
 
 function writeToStream() {
   // creates write stream with options to append to file
-  var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/restaurantTest.csv'), {
+  // var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/restaurantTest.csv'), {
+  var cwstreamRestaurant = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/restaurant10Test.csv'), {
     'flags': 'a'
     , 'encoding': null
     , 'mode': 0666
@@ -79,7 +80,8 @@ function writeToStream() {
   })
 
   function writeImages() {
-    var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/imageTest.csv'), {
+    // var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/imageTest.csv'), {
+    var cwstreamImage = fs.createWriteStream(path.resolve(__dirname + '../../../../../../../media/steve/TOSHIBA EXT/seeded/image10Test.csv'), {
       'flags': 'a'
       , 'encoding': null
       , 'mode': 0666

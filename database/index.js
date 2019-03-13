@@ -1,7 +1,7 @@
 const { Pool } = require('pg');
 
 const pool = new Pool({
-  user: 'postgres',
+  user: 'power_user',
   host: 'ec2-18-216-123-218.us-east-2.compute.amazonaws.com',
   database: 'photo_caro',
   password: 'Password1!',
@@ -11,7 +11,6 @@ const pool = new Pool({
 
 const findPhotos = (id, callback) => {
   const query = `SELECT * FROM photos WHERE restaurant_id = ${id}`;
-  //
   pool.connect()
     .then(client => {
       return client.query(query)
@@ -20,15 +19,6 @@ const findPhotos = (id, callback) => {
           callback(null, res)
         })
     })
-
-  // pool.query(query, (err, photos) => {
-  //   console.log(pool.totalCount, pool.idleCount, pool.waitingCount)
-  //   if (err) {
-  //     callback(err);
-  //     return;
-  //   }
-  //   callback(null, photos);
-  // });
 };
 
 module.exports = {
