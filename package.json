@@ -8,10 +8,10 @@
     "node": ">=6.13.0"
   },
   "scripts": {
-    "start": "webpack-dev-server --config ./webpack.config.js --mode development",
-    "dev-start": "webpack -d --watch",
+    "start": "node server/index.js",
+    "dev-start": "nodemon server/index.js",
+    "dev-pack": "webpack -d --watch",
     "prod-start": "webpack -p",
-    "server": "nodemon server/index.js",
     "seed": "node database/newseed.js",
     "test": "jest",
     "test-watch": "jest --watch --coverage --colors --verbose",
