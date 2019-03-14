@@ -6,7 +6,6 @@ const PhotoDisplayEntry = props => (
   <ImgContainer>
     <span>
       <div>
-        {console.log(props.photos[4])}
         <MediumImg data-index-number="0" onClick={event => props.openModal(event)} src={props.photos[0]['image_url']} alt="" />
       </div>
       <div>

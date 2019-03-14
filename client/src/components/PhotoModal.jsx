@@ -40,13 +40,12 @@ class PhotoModal extends React.Component {
 
   getImagesForBanner(id) {
     ajax.getPhotos(id, (err, data) => {
-      console.log(data.rows);
       if (err) {
         console.log(err);
         return;
       }
       this.setState({
-        images: data.rows,
+        images: data,
       });
     });
   }
@@ -94,7 +93,6 @@ class PhotoModal extends React.Component {
       <ModalPhotoDiv style={{ display: displayPhoto }}>
         <InnerModal>
           <Wrapper>
-            {console.log(images[currentImageIndex]['image_url'])}
             <PhotoCarouselLeftArrow prevImg={this.handlePreviousImageClick} imageIndex={currentImageIndex} />
             <PhotoCarousel openFlag={openFlag} closeFlag={closeFlag} displayFlag={displayFlag} url={images[currentImageIndex]['image_url']} caption={images[currentImageIndex].caption} username={images[currentImageIndex].username} date={moment(images[currentImageIndex].date_posted).format('LL')} imageIndex={currentImageIndex} />
             <PhotoCarouselRightArrow nextImg={this.handleNextImageClick} imageIndex={currentImageIndex} images={images} />
